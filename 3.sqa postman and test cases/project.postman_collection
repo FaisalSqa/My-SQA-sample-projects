@@ -1,0 +1,567 @@
+{
+  "info": {
+    "_postman_id": "9ece7e2e-6eeb-4251-9e14-620746788d64",
+    "name": "batch16",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49918324",
+    "_collection_link": "https://go.postman.co/collection/49918324-9ece7e2e-6eeb-4251-9e14-620746788d64?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "search",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const responseBody = pm.response.json();\r",
+              "pm.test(\"status code is correct\", () => {\r",
+              "    pm.expect(pm.response.code).to.eql(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"just success\", () => {\r",
+              "    pm.expect(responseBody.success).to.eql(true);\r",
+              "});\r",
+              "const graphqlResponse = responseBody.eContext.graphqlResponse;\r",
+              "const searchKey = Object.keys(graphqlResponse).find(key => graphqlResponse[key] && graphqlResponse[key].products);\r",
+              "\r",
+              "pm.test(\"search results found\", () => {\r",
+              "    pm.expect(searchKey).to.not.be.undefined;\r",
+              "});\r",
+              "\r",
+              "const items = graphqlResponse[searchKey].products.items;\r",
+              "\r",
+              "for (let i = 0; i < items.length; i++) {\r",
+              "    console.log(items[i].name);\r",
+              "    pm.test(\"are the names here\", () => {\r",
+              "        pm.expect(items[i].name).to.contain(sm);\r",
+              "    });\r",
+              "}\r",
+              "function random(min, max) {\r",
+              "  const minCeiled = Math.ceil(min);\r",
+              "  const maxFloored = Math.floor(max);\r",
+              "  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);\r",
+              "}\r",
+              "const index = random(0, items.length - 1);\r",
+              "const rsku = items[index].sku;\r",
+              "pm.collectionVariables.set(\"sku\", rsku);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const text =[\"Ceramic Coffee Cup\",\"Desk Pen Holder\"]\r",
+              "function random(min, max) {\r",
+              "  const minCeiled = Math.ceil(min);\r",
+              "  const maxFloored = Math.floor(max);\r",
+              "  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);\r",
+              "}\r",
+              "const index= random(0,1);\r",
+              "const search= text[index]\r",
+              "pm.collectionVariables.set(\"s\",search)\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://demo.evershop.io/search?keyword={{s}}&ajax=true",
+          "protocol": "https",
+          "host": [
+            "demo",
+            "evershop",
+            "io"
+          ],
+          "path": [
+            "search"
+          ],
+          "query": [
+            {
+              "key": "keyword",
+              "value": "{{s}}"
+            },
+            {
+              "key": "ajax",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "search",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://demo.evershop.io/search?keyword={{s}}&ajax=true",
+              "protocol": "https",
+              "host": [
+                "demo",
+                "evershop",
+                "io"
+              ],
+              "path": [
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "{{s}}"
+                },
+                {
+                  "key": "ajax",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "8525"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 03 May 2026 13:26:22 GMT"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"214d-8G6/0WYFdFGaTtDpGbNY3yq9ck0\""
+            },
+            {
+              "key": "request-context",
+              "value": "appId=cid-v1:"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"eContext\": {\n        \"graphqlResponse\": {\n            \"eqg118nmnimiek3\": {\n                \"uuid\": \"66cbdabd-f2f4-4972-8521-7525b7788362\",\n                \"currency\": \"USD\",\n                \"customerId\": null,\n                \"customerGroupId\": null,\n                \"customerEmail\": null,\n                \"customerFullName\": null,\n                \"coupon\": null,\n                \"noShippingRequired\": false,\n                \"shippingMethod\": null,\n                \"shippingMethodName\": null,\n                \"paymentMethod\": null,\n                \"paymentMethodName\": null,\n                \"shippingNote\": null,\n                \"taxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"totalTaxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"discountAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingFeeExclTax\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingFeeInclTax\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingTaxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"subTotal\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalInclTax\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalWithDiscount\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalWithDiscountInclTax\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"totalQty\": 1,\n                \"totalWeight\": {\n                    \"value\": 200,\n                    \"unit\": \"kg\"\n                },\n                \"taxAmountBeforeDiscount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"grandTotal\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"billingAddress\": null,\n                \"shippingAddress\": null,\n                \"createdAt\": {\n                    \"value\": \"1777814437438\",\n                    \"text\": \"May 3, 2026\"\n                },\n                \"updatedAt\": {\n                    \"value\": \"1777814437438\",\n                    \"text\": \"May 3, 2026\"\n                },\n                \"addItemApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items\",\n                \"addPaymentMethodApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/paymentMethods\",\n                \"addShippingMethodApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/shippingMethods\",\n                \"addContactInfoApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/contacts\",\n                \"addAddressApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/addresses\",\n                \"addNoteApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/shippingNotes\",\n                \"checkoutApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/checkout\",\n                \"applyCouponApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/coupons\",\n                \"removeCouponApi\": null,\n                \"availableShippingMethods\": [],\n                \"availablePaymentMethods\": [\n                    {\n                        \"code\": \"cod\",\n                        \"name\": \"Cash On Delivery\"\n                    },\n                    {\n                        \"code\": \"paypal\",\n                        \"name\": \"Paypal\"\n                    },\n                    {\n                        \"code\": \"stripe\",\n                        \"name\": \"Credit Card\"\n                    }\n                ],\n                \"items\": [\n                    {\n                        \"uuid\": \"deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"productId\": \"8\",\n                        \"productSku\": \"PEN-002-WHT\",\n                        \"productName\": \"Desk Pen Holder - White\",\n                        \"thumbnail\": \"/assets/catalog/9977/9360/pen-holder-white.jpg\",\n                        \"productWeight\": {\n                            \"value\": 200,\n                            \"unit\": \"kg\"\n                        },\n                        \"productPrice\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"productPriceInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"qty\": 1,\n                        \"finalPrice\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"finalPriceInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"taxPercent\": 0,\n                        \"taxAmount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"taxAmountBeforeDiscount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"discountAmount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"lineTotal\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"subTotal\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalWithDiscount\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalWithDiscountInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"total\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"variantGroupId\": 2,\n                        \"variantOptions\": [\n                            {\n                                \"attributeCode\": \"color\",\n                                \"attributeName\": \"Color\",\n                                \"attributeId\": 1,\n                                \"optionId\": 1,\n                                \"optionText\": \"White\"\n                            }\n                        ],\n                        \"productUrl\": \"/accessories/desk-pen-holder-white\",\n                        \"cartItemId\": \"12968\",\n                        \"removeApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items/deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"updateQtyApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items/deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"errors\": []\n                    }\n                ]\n            },\n            \"eqg118nmnimiek4\": null,\n            \"eqg118nmnimiek5\": {\n                \"copyRight\": \"© 2022 Evershop. All Rights Reserved.\"\n            },\n            \"eqg118nmnimiek6\": \"https://demo.evershop.io/api/cart/mine/items\",\n            \"eqg118nmnimiek7\": \"https://demo.evershop.io/customer/login\",\n            \"eqg118nmnimiek8\": \"https://demo.evershop.io/api/customers\",\n            \"eqg118nmnimiek9\": \"https://demo.evershop.io/customer/logout\",\n            \"eqg118nmnimiekc\": {\n                \"breadcrumbs\": [\n                    {\n                        \"title\": \"Home\",\n                        \"url\": \"/\"\n                    },\n                    {\n                        \"title\": \"Search results for: Desk Pen Holder\",\n                        \"url\": \"https://demo.evershop.io/search?keyword=Desk%20Pen%20Holder&ajax=true\"\n                    }\n                ]\n            },\n            \"eqg118nmnimiekd\": {\n                \"title\": \"Search results for: Desk Pen Holder\",\n                \"description\": \"Search results for: Desk Pen Holder\",\n                \"keywords\": [],\n                \"canonicalUrl\": \"https://demo.evershop.io/search?keyword=Desk%20Pen%20Holder&ajax=true\",\n                \"favicon\": null,\n                \"ogInfo\": {\n                    \"title\": \"Search results for: Desk Pen Holder\",\n                    \"description\": \"Search results for: Desk Pen Holder\",\n                    \"image\": null,\n                    \"url\": \"https://demo.evershop.io/search?keyword=Desk%20Pen%20Holder&ajax=true\",\n                    \"type\": \"website\",\n                    \"siteName\": null,\n                    \"twitterCard\": \"summary\",\n                    \"twitterSite\": \"Evershop\",\n                    \"twitterCreator\": \"Evershop\",\n                    \"twitterImage\": \"\"\n                }\n            },\n            \"eqg118nmnimieke\": {\n                \"headTags\": {\n                    \"metas\": [\n                        {\n                            \"name\": \"robots\",\n                            \"content\": \"noindex\",\n                            \"charSet\": null,\n                            \"httpEquiv\": null,\n                            \"property\": null,\n                            \"itemProp\": null,\n                            \"itemType\": null,\n                            \"itemID\": null,\n                            \"lang\": null\n                        }\n                    ],\n                    \"links\": [],\n                    \"scripts\": [],\n                    \"base\": null\n                }\n            },\n            \"eqg118nmnimiekf\": {\n                \"logo\": {\n                    \"src\": null,\n                    \"alt\": null,\n                    \"width\": null,\n                    \"height\": null\n                }\n            },\n            \"eqg118nmnimiekg\": \"https://demo.evershop.io/search\",\n            \"eqg118nmnimiekh\": {\n                \"keyword\": \"Desk Pen Holder\",\n                \"products\": {\n                    \"items\": [\n                        {\n                            \"productId\": 10,\n                            \"name\": \"Desk Pen Holder - Yellow\",\n                            \"sku\": \"PEN-002-YEL\",\n                            \"price\": {\n                                \"regular\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                },\n                                \"special\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                }\n                            },\n                            \"inventory\": {\n                                \"isInStock\": true\n                            },\n                            \"image\": {\n                                \"alt\": \"Desk Pen Holder - Yellow\",\n                                \"url\": \"/assets/catalog/6124/1941/pen-holder-yellow.jpg\"\n                            },\n                            \"url\": \"/accessories/desk-pen-holder-yellow\"\n                        },\n                        {\n                            \"productId\": 9,\n                            \"name\": \"Desk Pen Holder - Black\",\n                            \"sku\": \"PEN-002-BLK\",\n                            \"price\": {\n                                \"regular\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                },\n                                \"special\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                }\n                            },\n                            \"inventory\": {\n                                \"isInStock\": true\n                            },\n                            \"image\": {\n                                \"alt\": \"Desk Pen Holder - Black\",\n                                \"url\": \"/assets/catalog/9302/7857/pen-holder-black.jpg\"\n                            },\n                            \"url\": \"/accessories/desk-pen-holder-black\"\n                        },\n                        {\n                            \"productId\": 8,\n                            \"name\": \"Desk Pen Holder - White\",\n                            \"sku\": \"PEN-002-WHT\",\n                            \"price\": {\n                                \"regular\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                },\n                                \"special\": {\n                                    \"value\": 12,\n                                    \"text\": \"$12.00\"\n                                }\n                            },\n                            \"inventory\": {\n                                \"isInStock\": true\n                            },\n                            \"image\": {\n                                \"alt\": \"Desk Pen Holder - White\",\n                                \"url\": \"/assets/catalog/9977/9360/pen-holder-white.jpg\"\n                            },\n                            \"url\": \"/accessories/desk-pen-holder-white\"\n                        }\n                    ],\n                    \"currentFilters\": [\n                        {\n                            \"key\": \"keyword\",\n                            \"operation\": \"eq\",\n                            \"value\": \"Desk Pen Holder\"\n                        },\n                        {\n                            \"key\": \"page\",\n                            \"operation\": \"eq\",\n                            \"value\": \"1\"\n                        },\n                        {\n                            \"key\": \"limit\",\n                            \"operation\": \"eq\",\n                            \"value\": \"20\"\n                        }\n                    ],\n                    \"total\": 3\n                }\n            },\n            \"eqg118nmnimiekj\": \"https://demo.evershop.io/cart\",\n            \"eqg118nmnimiekk\": null,\n            \"eqg118nmnimiekl\": \"https://demo.evershop.io/account\",\n            \"eqg118nmnimiekm\": \"https://demo.evershop.io/account/login\",\n            \"eb037gu1g9mopt0pnl\": {\n                \"menus\": [\n                    {\n                        \"id\": \"b037gu1g9mopt0pod\",\n                        \"name\": \"Shop\",\n                        \"url\": \"#\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"#\",\n                        \"children\": [\n                            {\n                                \"name\": \"Accessories\",\n                                \"url\": \"/accessories\",\n                                \"type\": \"custom\",\n                                \"uuid\": \"/accessories\"\n                            }\n                        ]\n                    },\n                    {\n                        \"id\": \"b037gu1g9mopt0pof\",\n                        \"name\": \"About us\",\n                        \"url\": \"/page/about-us\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"/page/about-us\",\n                        \"children\": []\n                    }\n                ],\n                \"isMain\": true,\n                \"className\": \"\"\n            }\n        },\n        \"config\": {\n            \"tax\": {\n                \"priceIncludingTax\": true\n            },\n            \"catalog\": {\n                \"imageDimensions\": {\n                    \"width\": 1200,\n                    \"height\": 1200\n                }\n            },\n            \"pageMeta\": {\n                \"baseUrl\": \"https://demo.evershop.io\",\n                \"title\": \"Search results for: Desk Pen Holder\",\n                \"description\": \"Search results for: Desk Pen Holder\",\n                \"route\": {\n                    \"id\": \"catalogSearch\",\n                    \"isAdmin\": false,\n                    \"path\": \"/search\",\n                    \"url\": \"https://demo.evershop.io/search?keyword=Desk%20Pen%20Holder&ajax=true\",\n                    \"params\": {}\n                }\n            }\n        },\n        \"propsMap\": {\n            \"e0b8a7fbe\": [\n                {\n                    \"origin\": \"myCart\",\n                    \"alias\": \"eqg118nmnimiek3\"\n                },\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimiek4\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimiek5\"\n                },\n                {\n                    \"origin\": \"addMineCartItemApi\",\n                    \"alias\": \"eqg118nmnimiek6\"\n                },\n                {\n                    \"origin\": \"loginApi\",\n                    \"alias\": \"eqg118nmnimiek7\"\n                },\n                {\n                    \"origin\": \"registerApi\",\n                    \"alias\": \"eqg118nmnimiek8\"\n                },\n                {\n                    \"origin\": \"logoutApi\",\n                    \"alias\": \"eqg118nmnimiek9\"\n                }\n            ],\n            \"e5f0a74d0\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimiekc\"\n                }\n            ],\n            \"e383c895b\": [],\n            \"e05859dfa\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimiekd\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimieke\"\n                }\n            ],\n            \"e1cb31b28\": [\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimiekf\"\n                }\n            ],\n            \"e25e513e8\": [],\n            \"e43650550\": [],\n            \"e426029f0\": [\n                {\n                    \"origin\": \"searchPageUrl\",\n                    \"alias\": \"eqg118nmnimiekg\"\n                }\n            ],\n            \"e6f27f2c4\": [\n                {\n                    \"origin\": \"search\",\n                    \"alias\": \"eqg118nmnimiekh\"\n                }\n            ],\n            \"e0df7cfd2\": [\n                {\n                    \"origin\": \"cartUrl\",\n                    \"alias\": \"eqg118nmnimiekj\"\n                }\n            ],\n            \"e2a913111\": [\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimiekk\"\n                },\n                {\n                    \"origin\": \"accountUrl\",\n                    \"alias\": \"eqg118nmnimiekl\"\n                },\n                {\n                    \"origin\": \"loginUrl\",\n                    \"alias\": \"eqg118nmnimiekm\"\n                }\n            ],\n            \"e4c720906\": [\n                {\n                    \"origin\": \"collection\",\n                    \"alias\": \"eqg118nmnimiekn\"\n                },\n                {\n                    \"origin\": \"collectionProductsWidget\",\n                    \"alias\": \"eqg118nmnimieko\"\n                }\n            ],\n            \"e0d7f23c2\": [\n                {\n                    \"origin\": \"textWidget\",\n                    \"alias\": \"eqg118nmnimiekt\"\n                }\n            ],\n            \"e093c8eab\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eqg118nmnimiekx\"\n                }\n            ],\n            \"e5646fa00\": [\n                {\n                    \"origin\": \"bannerWidget\",\n                    \"alias\": \"eqg118nmnimiekz\"\n                }\n            ],\n            \"e1e4b3434\": [\n                {\n                    \"origin\": \"slideshowWidget\",\n                    \"alias\": \"eqg118nmnimiel5\"\n                }\n            ],\n            \"e75eeffe2a9cb4ff7ad7047ef03843559\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eb037gu1g9mopt0pnl\"\n                }\n            ]\n        },\n        \"widgets\": [\n            {\n                \"sortOrder\": 1,\n                \"areaId\": [\n                    \"headerMiddleLeft\"\n                ],\n                \"type\": \"basic_menu\",\n                \"id\": \"e75eeffe2a9cb4ff7ad7047ef03843559\"\n            }\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "pre view cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const responseBody= pm.response.json();\r",
+              "pm.test(\"check 200 is okay\",()=>{\r",
+              "    pm.expect(pm.response.code).to.eql(200)\r",
+              "})\r",
+              "let prevQty=0\r",
+              "try{\r",
+              "prevQty= responseBody.eContext.graphqlResponse.e35wux4h7ml3y45oy.totalQty\r",
+              "}\r",
+              "catch{\r",
+              "    console.log(\"stuff\")\r",
+              "}\r",
+              "\r",
+              "console.log(prevQty)\r",
+              "pm.collectionVariables.set(\"prev_Qty\",prevQty)"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://demo.evershop.io/cart?ajax=true",
+          "protocol": "https",
+          "host": [
+            "demo",
+            "evershop",
+            "io"
+          ],
+          "path": [
+            "cart"
+          ],
+          "query": [
+            {
+              "key": "ajax",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "pre view cart",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://demo.evershop.io/cart?ajax=true",
+              "protocol": "https",
+              "host": [
+                "demo",
+                "evershop",
+                "io"
+              ],
+              "path": [
+                "cart"
+              ],
+              "query": [
+                {
+                  "key": "ajax",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "3860"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 03 May 2026 13:20:03 GMT"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"f14-N3YZ0Vqcp6vlNu/71MLb/94jO4U\""
+            },
+            {
+              "key": "request-context",
+              "value": "appId=cid-v1:"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"eContext\": {\n        \"graphqlResponse\": {\n            \"eqg118nmnimiemq\": null,\n            \"eqg118nmnimiemr\": null,\n            \"eqg118nmnimiems\": {\n                \"copyRight\": \"© 2022 Evershop. All Rights Reserved.\"\n            },\n            \"eqg118nmnimiemt\": \"https://demo.evershop.io/api/cart/mine/items\",\n            \"eqg118nmnimiemu\": \"https://demo.evershop.io/customer/login\",\n            \"eqg118nmnimiemv\": \"https://demo.evershop.io/api/customers\",\n            \"eqg118nmnimiemw\": \"https://demo.evershop.io/customer/logout\",\n            \"eqg118nmnimiemz\": {\n                \"breadcrumbs\": [\n                    {\n                        \"title\": \"Home\",\n                        \"url\": \"/\"\n                    },\n                    {\n                        \"title\": \"Shopping cart\",\n                        \"url\": \"https://demo.evershop.io/cart?ajax=true\"\n                    }\n                ]\n            },\n            \"eqg118nmnimien0\": {\n                \"title\": \"Shopping cart\",\n                \"description\": \"Shopping cart\",\n                \"keywords\": [],\n                \"canonicalUrl\": \"https://demo.evershop.io/cart?ajax=true\",\n                \"favicon\": null,\n                \"ogInfo\": {\n                    \"title\": \"Shopping cart\",\n                    \"description\": \"Shopping cart\",\n                    \"image\": null,\n                    \"url\": \"https://demo.evershop.io/cart?ajax=true\",\n                    \"type\": \"website\",\n                    \"siteName\": null,\n                    \"twitterCard\": \"summary\",\n                    \"twitterSite\": \"Evershop\",\n                    \"twitterCreator\": \"Evershop\",\n                    \"twitterImage\": \"\"\n                }\n            },\n            \"eqg118nmnimien1\": {\n                \"headTags\": {\n                    \"metas\": [\n                        {\n                            \"name\": \"robots\",\n                            \"content\": \"noindex\",\n                            \"charSet\": null,\n                            \"httpEquiv\": null,\n                            \"property\": null,\n                            \"itemProp\": null,\n                            \"itemType\": null,\n                            \"itemID\": null,\n                            \"lang\": null\n                        }\n                    ],\n                    \"links\": [],\n                    \"scripts\": [],\n                    \"base\": null\n                }\n            },\n            \"eqg118nmnimien2\": {\n                \"logo\": {\n                    \"src\": null,\n                    \"alt\": null,\n                    \"width\": null,\n                    \"height\": null\n                }\n            },\n            \"eqg118nmnimien3\": \"https://demo.evershop.io/search\",\n            \"eqg118nmnimien4\": \"https://demo.evershop.io/cart\",\n            \"eqg118nmnimien5\": \"https://demo.evershop.io/checkout\",\n            \"eqg118nmnimien6\": null,\n            \"eqg118nmnimien7\": \"https://demo.evershop.io/account\",\n            \"eqg118nmnimien8\": \"https://demo.evershop.io/account/login\",\n            \"eb037gu1g9mopsskqz\": {\n                \"menus\": [\n                    {\n                        \"id\": \"b037gu1g9mopsskrx\",\n                        \"name\": \"Shop\",\n                        \"url\": \"#\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"#\",\n                        \"children\": [\n                            {\n                                \"name\": \"Accessories\",\n                                \"url\": \"/accessories\",\n                                \"type\": \"custom\",\n                                \"uuid\": \"/accessories\"\n                            }\n                        ]\n                    },\n                    {\n                        \"id\": \"b037gu1g9mopsskrz\",\n                        \"name\": \"About us\",\n                        \"url\": \"/page/about-us\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"/page/about-us\",\n                        \"children\": []\n                    }\n                ],\n                \"isMain\": true,\n                \"className\": \"\"\n            }\n        },\n        \"config\": {\n            \"tax\": {\n                \"priceIncludingTax\": true\n            },\n            \"catalog\": {\n                \"imageDimensions\": {\n                    \"width\": 1200,\n                    \"height\": 1200\n                }\n            },\n            \"pageMeta\": {\n                \"baseUrl\": \"https://demo.evershop.io\",\n                \"title\": \"Shopping cart\",\n                \"description\": \"Shopping cart\",\n                \"route\": {\n                    \"id\": \"cart\",\n                    \"isAdmin\": false,\n                    \"path\": \"/cart\",\n                    \"url\": \"https://demo.evershop.io/cart?ajax=true\",\n                    \"params\": {}\n                }\n            }\n        },\n        \"propsMap\": {\n            \"e0b8a7fbe\": [\n                {\n                    \"origin\": \"myCart\",\n                    \"alias\": \"eqg118nmnimiemq\"\n                },\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimiemr\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimiems\"\n                },\n                {\n                    \"origin\": \"addMineCartItemApi\",\n                    \"alias\": \"eqg118nmnimiemt\"\n                },\n                {\n                    \"origin\": \"loginApi\",\n                    \"alias\": \"eqg118nmnimiemu\"\n                },\n                {\n                    \"origin\": \"registerApi\",\n                    \"alias\": \"eqg118nmnimiemv\"\n                },\n                {\n                    \"origin\": \"logoutApi\",\n                    \"alias\": \"eqg118nmnimiemw\"\n                }\n            ],\n            \"e5f0a74d0\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimiemz\"\n                }\n            ],\n            \"e383c895b\": [],\n            \"e05859dfa\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimien0\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimien1\"\n                }\n            ],\n            \"e1cb31b28\": [\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimien2\"\n                }\n            ],\n            \"e25e513e8\": [],\n            \"e43650550\": [],\n            \"e426029f0\": [\n                {\n                    \"origin\": \"searchPageUrl\",\n                    \"alias\": \"eqg118nmnimien3\"\n                }\n            ],\n            \"e0df7cfd2\": [\n                {\n                    \"origin\": \"cartUrl\",\n                    \"alias\": \"eqg118nmnimien4\"\n                }\n            ],\n            \"e409003eb\": [\n                {\n                    \"origin\": \"checkoutUrl\",\n                    \"alias\": \"eqg118nmnimien5\"\n                }\n            ],\n            \"e2a913111\": [\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimien6\"\n                },\n                {\n                    \"origin\": \"accountUrl\",\n                    \"alias\": \"eqg118nmnimien7\"\n                },\n                {\n                    \"origin\": \"loginUrl\",\n                    \"alias\": \"eqg118nmnimien8\"\n                }\n            ],\n            \"e4c720906\": [\n                {\n                    \"origin\": \"collection\",\n                    \"alias\": \"eqg118nmnimien9\"\n                },\n                {\n                    \"origin\": \"collectionProductsWidget\",\n                    \"alias\": \"eqg118nmnimiena\"\n                }\n            ],\n            \"e0d7f23c2\": [\n                {\n                    \"origin\": \"textWidget\",\n                    \"alias\": \"eqg118nmnimienf\"\n                }\n            ],\n            \"e093c8eab\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eqg118nmnimienj\"\n                }\n            ],\n            \"e5646fa00\": [\n                {\n                    \"origin\": \"bannerWidget\",\n                    \"alias\": \"eqg118nmnimienl\"\n                }\n            ],\n            \"e1e4b3434\": [\n                {\n                    \"origin\": \"slideshowWidget\",\n                    \"alias\": \"eqg118nmnimienr\"\n                }\n            ],\n            \"e75eeffe2a9cb4ff7ad7047ef03843559\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eb037gu1g9mopsskqz\"\n                }\n            ]\n        },\n        \"widgets\": [\n            {\n                \"sortOrder\": 1,\n                \"areaId\": [\n                    \"headerMiddleLeft\"\n                ],\n                \"type\": \"basic_menu\",\n                \"id\": \"e75eeffe2a9cb4ff7ad7047ef03843559\"\n            }\n        ]\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "add to cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const responseBody = pm.response.json()\r",
+              "const previous = Number(pm.collectionVariables.get(\"prev_Qty\"))\r",
+              "\r",
+              "const current = Number(pm.collectionVariables.get(\"p_qty\"))\r",
+              "\r",
+              "const total =current + previous\r",
+              "\r",
+              "const product_qty=responseBody.data.count\r",
+              "\r",
+              "pm.test(\"the amount is correct\",()=>{\r",
+              "    pm.expect(product_qty).to.eql(total)\r",
+              "})\r",
+              "\r",
+              "pm.collectionVariables.set(\"total_qty\",total)\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function random(min, max) {\r",
+              "  const minCeiled = Math.ceil(min);\r",
+              "  const maxFloored = Math.floor(max);\r",
+              "  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);\r",
+              "}\r",
+              "const qty = random(1,2)\r",
+              "pm.collectionVariables.set(\"p_qty\",qty)\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\"qty\": \"{{p_qty}}\",\r\n\"sku\": \"{{sku}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://demo.evershop.io/api/cart/mine/items",
+          "protocol": "https",
+          "host": [
+            "demo",
+            "evershop",
+            "io"
+          ],
+          "path": [
+            "api",
+            "cart",
+            "mine",
+            "items"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "add to cart",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"qty\": \"{{p_qty}}\",\r\n\"sku\": \"{{sku}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://demo.evershop.io/api/cart/mine/items",
+              "protocol": "https",
+              "host": [
+                "demo",
+                "evershop",
+                "io"
+              ],
+              "path": [
+                "api",
+                "cart",
+                "mine",
+                "items"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "930"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 03 May 2026 13:20:37 GMT"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"3a2-I98x7rGtuV6jgPYeZxlJaH6pCCI\""
+            },
+            {
+              "key": "request-context",
+              "value": "appId=cid-v1:"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"data\": {\n        \"item\": {\n            \"uuid\": \"deed537c-a009-4554-a6dd-9a814a60a95e\",\n            \"product_id\": 8,\n            \"productUrl\": \"/accessories/desk-pen-holder-white\",\n            \"product_uuid\": \"99c9a220-b1ff-4540-a65b-42003b8b2eef\",\n            \"product_sku\": \"PEN-002-WHT\",\n            \"group_id\": 2,\n            \"category_id\": 4,\n            \"product_name\": \"Desk Pen Holder - White\",\n            \"thumbnail\": \"/assets/catalog/9977/9360/pen-holder-white.jpg\",\n            \"product_weight\": 200,\n            \"no_shipping_required\": false,\n            \"tax_class_id\": 1,\n            \"qty\": 1,\n            \"variant_group_id\": 2,\n            \"variant_options\": \"[{\\\"attribute_code\\\":\\\"color\\\",\\\"attribute_name\\\":\\\"Color\\\",\\\"attribute_id\\\":1,\\\"option_id\\\":1,\\\"option_text\\\":\\\"White\\\"}]\",\n            \"tax_percent\": 0,\n            \"product_price\": 12,\n            \"product_price_incl_tax\": 12,\n            \"tax_amount_before_discount\": 0,\n            \"final_price\": 12,\n            \"final_price_incl_tax\": 12,\n            \"line_total\": 12,\n            \"line_total_incl_tax\": 12,\n            \"discount_amount\": 0,\n            \"tax_amount\": 0,\n            \"line_total_with_discount\": 12,\n            \"line_total_with_discount_incl_tax\": 12,\n            \"errors\": {}\n        },\n        \"count\": 1,\n        \"cartId\": \"66cbdabdf2f4497285217525b7788362\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const responseBody = pm.response.json();\r",
+              "const cartData = responseBody.eContext.graphqlResponse.eqg118nmnimiemq;\r",
+              "const qty = cartData.totalQty;\r",
+              "const total = pm.collectionVariables.get(\"total_qty\");\r",
+              "pm.test(\"amount is correct\", () => {\r",
+              "    pm.expect(qty).to.eql(total);\r",
+              "});\r",
+              "const items = cartData.items;\r",
+              "const removeItem = items[0].removeApi;\r",
+              "pm.collectionVariables.set(\"remove_item\", removeItem);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "packages": {},
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://demo.evershop.io/cart?ajax=true",
+          "protocol": "https",
+          "host": [
+            "demo",
+            "evershop",
+            "io"
+          ],
+          "path": [
+            "cart"
+          ],
+          "query": [
+            {
+              "key": "ajax",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "post",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://demo.evershop.io/cart?ajax=true",
+              "protocol": "https",
+              "host": [
+                "demo",
+                "evershop",
+                "io"
+              ],
+              "path": [
+                "cart"
+              ],
+              "query": [
+                {
+                  "key": "ajax",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Length",
+              "value": "7059"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 03 May 2026 13:23:10 GMT"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1b93-9l4a/K5LbBpu0ckRaPDIMREFv8w\""
+            },
+            {
+              "key": "request-context",
+              "value": "appId=cid-v1:"
+            },
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"success\": true,\n    \"eContext\": {\n        \"graphqlResponse\": {\n            \"eqg118nmnimiemq\": {\n                \"uuid\": \"66cbdabd-f2f4-4972-8521-7525b7788362\",\n                \"currency\": \"USD\",\n                \"customerId\": null,\n                \"customerGroupId\": null,\n                \"customerEmail\": null,\n                \"customerFullName\": null,\n                \"coupon\": null,\n                \"noShippingRequired\": false,\n                \"shippingMethod\": null,\n                \"shippingMethodName\": null,\n                \"paymentMethod\": null,\n                \"paymentMethodName\": null,\n                \"shippingNote\": null,\n                \"taxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"totalTaxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"discountAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingFeeExclTax\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingFeeInclTax\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"shippingTaxAmount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"subTotal\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalInclTax\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalWithDiscount\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"subTotalWithDiscountInclTax\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"totalQty\": 1,\n                \"totalWeight\": {\n                    \"value\": 200,\n                    \"unit\": \"kg\"\n                },\n                \"taxAmountBeforeDiscount\": {\n                    \"value\": 0,\n                    \"text\": \"$0.00\"\n                },\n                \"grandTotal\": {\n                    \"value\": 12,\n                    \"text\": \"$12.00\"\n                },\n                \"billingAddress\": null,\n                \"shippingAddress\": null,\n                \"createdAt\": {\n                    \"value\": \"1777814437438\",\n                    \"text\": \"May 3, 2026\"\n                },\n                \"updatedAt\": {\n                    \"value\": \"1777814437438\",\n                    \"text\": \"May 3, 2026\"\n                },\n                \"addItemApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items\",\n                \"addPaymentMethodApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/paymentMethods\",\n                \"addShippingMethodApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/shippingMethods\",\n                \"addContactInfoApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/contacts\",\n                \"addAddressApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/addresses\",\n                \"addNoteApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/shippingNotes\",\n                \"checkoutApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/checkout\",\n                \"applyCouponApi\": \"/api/carts/66cbdabd-f2f4-4972-8521-7525b7788362/coupons\",\n                \"removeCouponApi\": null,\n                \"availableShippingMethods\": [],\n                \"availablePaymentMethods\": [\n                    {\n                        \"code\": \"cod\",\n                        \"name\": \"Cash On Delivery\"\n                    },\n                    {\n                        \"code\": \"paypal\",\n                        \"name\": \"Paypal\"\n                    },\n                    {\n                        \"code\": \"stripe\",\n                        \"name\": \"Credit Card\"\n                    }\n                ],\n                \"items\": [\n                    {\n                        \"uuid\": \"deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"productId\": \"8\",\n                        \"productSku\": \"PEN-002-WHT\",\n                        \"productName\": \"Desk Pen Holder - White\",\n                        \"thumbnail\": \"/assets/catalog/9977/9360/pen-holder-white.jpg\",\n                        \"productWeight\": {\n                            \"value\": 200,\n                            \"unit\": \"kg\"\n                        },\n                        \"productPrice\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"productPriceInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"qty\": 1,\n                        \"finalPrice\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"finalPriceInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"taxPercent\": 0,\n                        \"taxAmount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"taxAmountBeforeDiscount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"discountAmount\": {\n                            \"value\": 0,\n                            \"text\": \"$0.00\"\n                        },\n                        \"lineTotal\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"subTotal\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalWithDiscount\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalWithDiscountInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"lineTotalInclTax\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"total\": {\n                            \"value\": 12,\n                            \"text\": \"$12.00\"\n                        },\n                        \"variantGroupId\": 2,\n                        \"variantOptions\": [\n                            {\n                                \"attributeCode\": \"color\",\n                                \"attributeName\": \"Color\",\n                                \"attributeId\": 1,\n                                \"optionId\": 1,\n                                \"optionText\": \"White\"\n                            }\n                        ],\n                        \"productUrl\": \"/accessories/desk-pen-holder-white\",\n                        \"cartItemId\": \"12968\",\n                        \"removeApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items/deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"updateQtyApi\": \"/api/cart/66cbdabd-f2f4-4972-8521-7525b7788362/items/deed537c-a009-4554-a6dd-9a814a60a95e\",\n                        \"errors\": []\n                    }\n                ]\n            },\n            \"eqg118nmnimiemr\": null,\n            \"eqg118nmnimiems\": {\n                \"copyRight\": \"© 2022 Evershop. All Rights Reserved.\"\n            },\n            \"eqg118nmnimiemt\": \"https://demo.evershop.io/api/cart/mine/items\",\n            \"eqg118nmnimiemu\": \"https://demo.evershop.io/customer/login\",\n            \"eqg118nmnimiemv\": \"https://demo.evershop.io/api/customers\",\n            \"eqg118nmnimiemw\": \"https://demo.evershop.io/customer/logout\",\n            \"eqg118nmnimiemz\": {\n                \"breadcrumbs\": [\n                    {\n                        \"title\": \"Home\",\n                        \"url\": \"/\"\n                    },\n                    {\n                        \"title\": \"Shopping cart\",\n                        \"url\": \"https://demo.evershop.io/cart?ajax=true\"\n                    }\n                ]\n            },\n            \"eqg118nmnimien0\": {\n                \"title\": \"Shopping cart\",\n                \"description\": \"Shopping cart\",\n                \"keywords\": [],\n                \"canonicalUrl\": \"https://demo.evershop.io/cart?ajax=true\",\n                \"favicon\": null,\n                \"ogInfo\": {\n                    \"title\": \"Shopping cart\",\n                    \"description\": \"Shopping cart\",\n                    \"image\": null,\n                    \"url\": \"https://demo.evershop.io/cart?ajax=true\",\n                    \"type\": \"website\",\n                    \"siteName\": null,\n                    \"twitterCard\": \"summary\",\n                    \"twitterSite\": \"Evershop\",\n                    \"twitterCreator\": \"Evershop\",\n                    \"twitterImage\": \"\"\n                }\n            },\n            \"eqg118nmnimien1\": {\n                \"headTags\": {\n                    \"metas\": [\n                        {\n                            \"name\": \"robots\",\n                            \"content\": \"noindex\",\n                            \"charSet\": null,\n                            \"httpEquiv\": null,\n                            \"property\": null,\n                            \"itemProp\": null,\n                            \"itemType\": null,\n                            \"itemID\": null,\n                            \"lang\": null\n                        }\n                    ],\n                    \"links\": [],\n                    \"scripts\": [],\n                    \"base\": null\n                }\n            },\n            \"eqg118nmnimien2\": {\n                \"logo\": {\n                    \"src\": null,\n                    \"alt\": null,\n                    \"width\": null,\n                    \"height\": null\n                }\n            },\n            \"eqg118nmnimien3\": \"https://demo.evershop.io/search\",\n            \"eqg118nmnimien4\": \"https://demo.evershop.io/cart\",\n            \"eqg118nmnimien5\": \"https://demo.evershop.io/checkout\",\n            \"eqg118nmnimien6\": null,\n            \"eqg118nmnimien7\": \"https://demo.evershop.io/account\",\n            \"eqg118nmnimien8\": \"https://demo.evershop.io/account/login\",\n            \"eb037gu1g9mopswkzf\": {\n                \"menus\": [\n                    {\n                        \"id\": \"b037gu1g9mopswl03\",\n                        \"name\": \"Shop\",\n                        \"url\": \"#\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"#\",\n                        \"children\": [\n                            {\n                                \"name\": \"Accessories\",\n                                \"url\": \"/accessories\",\n                                \"type\": \"custom\",\n                                \"uuid\": \"/accessories\"\n                            }\n                        ]\n                    },\n                    {\n                        \"id\": \"b037gu1g9mopswl05\",\n                        \"name\": \"About us\",\n                        \"url\": \"/page/about-us\",\n                        \"type\": \"custom\",\n                        \"uuid\": \"/page/about-us\",\n                        \"children\": []\n                    }\n                ],\n                \"isMain\": true,\n                \"className\": \"\"\n            }\n        },\n        \"config\": {\n            \"tax\": {\n                \"priceIncludingTax\": true\n            },\n            \"catalog\": {\n                \"imageDimensions\": {\n                    \"width\": 1200,\n                    \"height\": 1200\n                }\n            },\n            \"pageMeta\": {\n                \"baseUrl\": \"https://demo.evershop.io\",\n                \"title\": \"Shopping cart\",\n                \"description\": \"Shopping cart\",\n                \"route\": {\n                    \"id\": \"cart\",\n                    \"isAdmin\": false,\n                    \"path\": \"/cart\",\n                    \"url\": \"https://demo.evershop.io/cart?ajax=true\",\n                    \"params\": {}\n                }\n            }\n        },\n        \"propsMap\": {\n            \"e0b8a7fbe\": [\n                {\n                    \"origin\": \"myCart\",\n                    \"alias\": \"eqg118nmnimiemq\"\n                },\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimiemr\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimiems\"\n                },\n                {\n                    \"origin\": \"addMineCartItemApi\",\n                    \"alias\": \"eqg118nmnimiemt\"\n                },\n                {\n                    \"origin\": \"loginApi\",\n                    \"alias\": \"eqg118nmnimiemu\"\n                },\n                {\n                    \"origin\": \"registerApi\",\n                    \"alias\": \"eqg118nmnimiemv\"\n                },\n                {\n                    \"origin\": \"logoutApi\",\n                    \"alias\": \"eqg118nmnimiemw\"\n                }\n            ],\n            \"e5f0a74d0\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimiemz\"\n                }\n            ],\n            \"e383c895b\": [],\n            \"e05859dfa\": [\n                {\n                    \"origin\": \"pageInfo\",\n                    \"alias\": \"eqg118nmnimien0\"\n                },\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimien1\"\n                }\n            ],\n            \"e1cb31b28\": [\n                {\n                    \"origin\": \"themeConfig\",\n                    \"alias\": \"eqg118nmnimien2\"\n                }\n            ],\n            \"e25e513e8\": [],\n            \"e43650550\": [],\n            \"e426029f0\": [\n                {\n                    \"origin\": \"searchPageUrl\",\n                    \"alias\": \"eqg118nmnimien3\"\n                }\n            ],\n            \"e0df7cfd2\": [\n                {\n                    \"origin\": \"cartUrl\",\n                    \"alias\": \"eqg118nmnimien4\"\n                }\n            ],\n            \"e409003eb\": [\n                {\n                    \"origin\": \"checkoutUrl\",\n                    \"alias\": \"eqg118nmnimien5\"\n                }\n            ],\n            \"e2a913111\": [\n                {\n                    \"origin\": \"customer\",\n                    \"alias\": \"eqg118nmnimien6\"\n                },\n                {\n                    \"origin\": \"accountUrl\",\n                    \"alias\": \"eqg118nmnimien7\"\n                },\n                {\n                    \"origin\": \"loginUrl\",\n                    \"alias\": \"eqg118nmnimien8\"\n                }\n            ],\n            \"e4c720906\": [\n                {\n                    \"origin\": \"collection\",\n                    \"alias\": \"eqg118nmnimien9\"\n                },\n                {\n                    \"origin\": \"collectionProductsWidget\",\n                    \"alias\": \"eqg118nmnimiena\"\n                }\n            ],\n            \"e0d7f23c2\": [\n                {\n                    \"origin\": \"textWidget\",\n                    \"alias\": \"eqg118nmnimienf\"\n                }\n            ],\n            \"e093c8eab\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eqg118nmnimienj\"\n                }\n            ],\n            \"e5646fa00\": [\n                {\n                    \"origin\": \"bannerWidget\",\n                    \"alias\": \"eqg118nmnimienl\"\n                }\n            ],\n            \"e1e4b3434\": [\n                {\n                    \"origin\": \"slideshowWidget\",\n                    \"alias\": \"eqg118nmnimienr\"\n                }\n            ],\n            \"e75eeffe2a9cb4ff7ad7047ef03843559\": [\n                {\n                    \"origin\": \"basicMenuWidget\",\n                    \"alias\": \"eb037gu1g9mopswkzf\"\n                }\n            ]\n        },\n        \"widgets\": [\n            {\n                \"sortOrder\": 1,\n                \"areaId\": [\n                    \"headerMiddleLeft\"\n                ],\n                \"type\": \"basic_menu\",\n                \"id\": \"e75eeffe2a9cb4ff7ad7047ef03843559\"\n            }\n        ]\n    }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "null",
+      "value": ""
+    },
+    {
+      "key": "s",
+      "value": ""
+    },
+    {
+      "key": "sku",
+      "value": ""
+    },
+    {
+      "key": "p_qty",
+      "value": ""
+    },
+    {
+      "key": "prev_Qty",
+      "value": ""
+    },
+    {
+      "key": "total_qty",
+      "value": ""
+    },
+    {
+      "key": "remove_item",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "1.sqa-projects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "play.js",
+  "scripts": {
+    "getreport": "npx allure generate ./allure-results --clean && npx allure open ./allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.4.0",
+    "@fakerjs/faker": "^3.0.0",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.1"
+  }
+}
