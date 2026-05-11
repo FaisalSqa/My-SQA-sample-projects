@@ -1,0 +1,20 @@
+{
+  "name": "q1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "q1": "npx playwright test tests/Q1.spec.js --headed && npx playwright show-report",
+    "q2": "npx playwright test tests/Q2.spec.js --headed && npx playwright show-report",
+    "q3": "npx playwright test tests/Q3.spec.js --headed && npx playwright show-report",
+    "all": "npx playwright test tests/Q1.spec.js tests/Q2.spec.js tests/Q3.spec.js --headed && npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.2"
+  }
+}
